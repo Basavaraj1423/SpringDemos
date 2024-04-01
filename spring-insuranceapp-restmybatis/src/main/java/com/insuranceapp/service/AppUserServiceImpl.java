@@ -23,7 +23,10 @@ public class AppUserServiceImpl implements UserDetailsManager   {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		AppUser appUser = appUserRepository.findByUsername(username);
-		return null;
+		if(appUser==null)
+			throw new UsernameNotFoundException("Username doestn't exist");
+		UserDetails details=appUserMapper.convertToUserDetails(appUser);
+		return details;
 	}
 
 	@Override
